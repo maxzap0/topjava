@@ -6,6 +6,13 @@
     <title>Meals</title>
 </head>
 <body>
+<a href="/topjava">Home</a>
+<br/>
+<hr/>
+<h2>Meals</h2>
+<a href="UserController?action=insert">Add Meals</a>
+<br/>
+<br/>
 <table border=1>
     <thead>
     <tr>
@@ -16,22 +23,25 @@
         <th></th>
     </tr>
     </thead>
-    <p><h2>Meals</h2></p>
-    <p><a href="UserController?action=insert">Add Meals</a></p>
     <tbody>
+    <jsp:useBean id="meals" scope="request" type="java.util.List"/>
     <c:forEach items="${meals}" var="meals">
 
-        <tr style="color: red">
-
-            <td>
-                <fmt:parseDate value="${ meals.dateTime }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
-                               type="both"/>
-                <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${ parsedDateTime }"/>
-            </td>
-            <td><c:out value="${meals.description}"/></td>
-            <td><c:out value="${meals.calories}"/></td>
-            <td>Update</td>
-            <td>Delete</td>
+        <c:if test="${meals.excess eq true}">
+            <tr style="color: red">
+        </c:if>
+        <c:if test="${meals.excess ne true}">
+            <tr style="color: green">
+        </c:if>
+        <td>
+            <fmt:parseDate value="${ meals.dateTime }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
+                           type="both"/>
+            <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${ parsedDateTime }"/>
+        </td>
+        <td><c:out value="${meals.description}"/></td>
+        <td><c:out value="${meals.calories}"/></td>
+        <td>Update</td>
+        <td>Delete</td>
         </tr>
     </c:forEach>
     </tbody>
