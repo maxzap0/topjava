@@ -34,14 +34,14 @@
             <tr style="color: green">
         </c:if>
         <td>
-            <fmt:parseDate value="${ meals.dateTime }" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
+            <fmt:parseDate value="${meals.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
                            type="both"/>
-            <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${ parsedDateTime }"/>
+            <fmt:formatDate pattern="yyyy-MM-dd HH:mm" value="${parsedDateTime}"/>
         </td>
         <td><c:out value="${meals.description}"/></td>
         <td><c:out value="${meals.calories}"/></td>
-        <td>Update</td>
-        <td>Delete</td>
+        <td><a href="meals?action=delete&mealId=<c:out value="${meals.id}"/>">Delete</a></td>
+        <td><a href="meals?action=update&mealId=<c:out value="${meals.id}"/>">Update</a></td>
         </tr>
     </c:forEach>
     </tbody>
