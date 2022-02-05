@@ -11,16 +11,15 @@
 <hr/>
 Edit Meal
 <br/>
-<form method="POST" action='MealServlet' name="frmAddMeal">
-    <table border="0">
-
+<form method="POST" action='meals' name="frmAddMeal">
+    <table>
         <tbody>
         <tr>
             <td>
                 Date :
             </td>
             <td>
-                <input type="datetime-local" name="date" value="<c:out value="${meal.dateTime}" />"/>
+                <input type="datetime-local" name="dateTime" value="<c:out value="${meal.dateTime}" />"/>
             </td>
         </tr>
         <tr>
@@ -37,6 +36,14 @@ Edit Meal
             </td>
             <td>
                 <input type="text" name="calories" value="<c:out value="${meal.calories}" />"/>
+            </td>
+        </tr>
+        <tr style="display: none">
+            <td>
+                id :
+            </td>
+            <td>
+                <input type="text" name="id" value="<c:out value="${meal.id}" />"/>
             </td>
         </tr>
         <tr>

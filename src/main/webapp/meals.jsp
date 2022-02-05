@@ -10,7 +10,7 @@
 <br/>
 <hr/>
 <h2>Meals</h2>
-<a href="UserController?action=insert">Add Meals</a>
+<a href="meals?action=create">Add Meals</a>
 <br/>
 <br/>
 <table border=1>
@@ -40,8 +40,8 @@
         </td>
         <td><c:out value="${meals.description}"/></td>
         <td><c:out value="${meals.calories}"/></td>
-        <td><a href="meals?action=delete&mealId=<c:out value="${meals.id}"/>">Delete</a></td>
-        <td><a href="meals?action=update&mealId=<c:out value="${meals.id}"/>">Update</a></td>
+        <td><a href="meals?action=delete&id=<c:out value="${meals.id}"/>">Delete</a></td>
+        <td><a href="meals?action=update&id=<c:out value="${meals.id}"/>">Update</a></td>
         </tr>
     </c:forEach>
     </tbody>

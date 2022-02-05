@@ -14,19 +14,23 @@ public class MealsListInMemoryRepositoryImp implements MealsRepository{
     AtomicInteger ids = new AtomicInteger(0);
 
     @Override
-    public synchronized void save(MealTo mealTo) {
-        Meal meal = new Meal(mealTo.getDateTime(), mealTo.getDescription(), mealTo.getCalories());
-        meal.setId(ids.incrementAndGet());
-        meals.add(meal);
+    public synchronized void save(Meal mealTo) {
+        if (mealTo.getId() == null){
+            Meal meal = new Meal(mealTo.getDateTime(), mealTo.getDescription(), mealTo.getCalories());
+            meal.setId(ids.incrementAndGet());
+            meals.add(meal);
+        } else {
+            Meal meal = getOne(mealTo.getId());
+            meal.setCalories(mealTo.getCalories());
+            meal.setDateTime(mealTo.getDateTime());
+            meal.setDescription(mealTo.getDescription());
+        }
+
     }
 
     @Override
     public synchronized void delete(Integer id) {
-        if (meals.contains(meals.get(id))) {
-            meals.remove((int) id);
-        } else {
-            throw new NoSuchElementException();
-        }
+        meals.removeIf(meal -> meal.getId().equals(id));
     }
 
     @Override
