@@ -24,7 +24,7 @@
     </tr>
     </thead>
     <tbody>
-    <jsp:useBean id="meals" scope="request" type="java.util.List"/>
+    <%--<jsp:useBean id="meals" scope="request" type="java.util.List"/>--%>
     <c:forEach items="${meals}" var="meals">
 
         <c:if test="${meals.excess eq true}">

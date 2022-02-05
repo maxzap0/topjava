@@ -11,7 +11,6 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
 import java.time.format.DateTimeFormatter;
 
 import static org.slf4j.LoggerFactory.getLogger;
@@ -36,37 +35,31 @@ public class MealServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String forward = "";
+        String forward;
         String action = request.getParameter("action");
 
         if (action != null) {
             if (action.equalsIgnoreCase(DELETE_ACTION)) {
                 mealsRepository.delete(Integer.valueOf(request.getParameter(ID)));
-                forward = MEALS_PAGE;
                 request.setAttribute("meals",
                         MealsUtil.filteredByStreams(mealsRepository.getAll(), LocalTime.of(0, 0), LocalTime.of(23, 59), 2000));
+                response.sendRedirect("meals");
             } else if (action.equalsIgnoreCase(UPDATE_ACTION)) {
                 forward = MEAL_PAGE;
                 Integer id = Integer.valueOf(request.getParameter(ID));
                 Meal meal = mealsRepository.getOne(id);
                 request.setAttribute("meal", meal);
+                request.getRequestDispatcher(forward).forward(request, response);
             } else if (action.equalsIgnoreCase(CREATE_ACTION)) {
                 forward = MEAL_PAGE;
+                request.getRequestDispatcher(forward).forward(request, response);
             }
         } else {
-            //ToDo delete this after added metod save
-            mealsRepository.save(new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0),
-                    "Завтрак", 500));
-            mealsRepository.save(new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0),
-                    "Обед", 1000));
             forward = MEALS_PAGE;
             request.setAttribute("meals",
                     MealsUtil.filteredByStreams(mealsRepository.getAll(), LocalTime.of(0, 0), LocalTime.of(23, 59), 2000));
+            request.getRequestDispatcher(forward).forward(request, response);
         }
-
-        //request.getRequestDispatcher(forward).forward(request, response);
-        //request.getRequestDispatcher(forward).forward(request, response);
-        response.sendRedirect(forward);
     }
 
     @Override
@@ -85,9 +78,7 @@ public class MealServlet extends HttpServlet {
         if (request.getParameter(ID)!=null && !request.getParameter(ID).isEmpty()) {
             meal.setId(Integer.valueOf(request.getParameter(ID)));
         }
-
         mealsRepository.save(meal);
-
         request.setAttribute("meals",
                 MealsUtil.filteredByStreams(mealsRepository.getAll(), LocalTime.of(0, 0), LocalTime.of(23, 59), 2000));
         request.getRequestDispatcher("/meals.jsp").forward(request, response);
