@@ -17,19 +17,21 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 public class MealServlet extends HttpServlet {
 
-    private final static String DESCRIPTION = "description";
-    private final static String CALORIES = "calories";
-    private final static String DATE_TIME = "dateTime";
-    private final static String ID = "id";
-    private final static String MEALS_PAGE = "meals.jsp";
-    private final static String MEAL_PAGE = "meal.jsp";
-    private final static String DELETE_ACTION = "delete";
-    private final static String UPDATE_ACTION = "update";
-    private final static String CREATE_ACTION = "create";
+    private static final String DESCRIPTION = "description";
+    private static final String CALORIES = "calories";
+    private static final String DATE_TIME = "dateTime";
+    private static final String ID = "id";
+    private static final String MEALS_PAGE = "meals.jsp";
+    private static final String MEAL_PAGE = "meal.jsp";
+    private static final String DELETE_ACTION = "delete";
+    private static final String UPDATE_ACTION = "update";
+    private static final String CREATE_ACTION = "create";
+    private static final String NAME_ATRR_MEALS = "meals";
+    private static final String SERVLET_MAPPING = "meals";
 
     public static final Logger log = getLogger(MealServlet.class);
-    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-    MealsRepository mealsRepository = new MealsListInMemoryRepositoryImp();
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+    private static final MealsRepository mealsRepository = new MealsListInMemoryRepositoryImp();
 
 
     @Override
@@ -41,9 +43,10 @@ public class MealServlet extends HttpServlet {
         if (action != null) {
             if (action.equalsIgnoreCase(DELETE_ACTION)) {
                 mealsRepository.delete(Integer.valueOf(request.getParameter(ID)));
-                request.setAttribute("meals",
+                log.debug("delete meal id={}", Integer.valueOf(request.getParameter(ID)));
+                request.setAttribute(NAME_ATRR_MEALS,
                         MealsUtil.filteredByStreams(mealsRepository.getAll(), LocalTime.of(0, 0), LocalTime.of(23, 59), 2000));
-                response.sendRedirect("meals");
+                response.sendRedirect(SERVLET_MAPPING);
             } else if (action.equalsIgnoreCase(UPDATE_ACTION)) {
                 forward = MEAL_PAGE;
                 Integer id = Integer.valueOf(request.getParameter(ID));
@@ -56,7 +59,7 @@ public class MealServlet extends HttpServlet {
             }
         } else {
             forward = MEALS_PAGE;
-            request.setAttribute("meals",
+            request.setAttribute(NAME_ATRR_MEALS,
                     MealsUtil.filteredByStreams(mealsRepository.getAll(), LocalTime.of(0, 0), LocalTime.of(23, 59), 2000));
             request.getRequestDispatcher(forward).forward(request, response);
         }
@@ -64,22 +67,21 @@ public class MealServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
         request.setCharacterEncoding("UTF-8");
-        log.debug("datetime {}", request.getParameter(DATE_TIME));
-        log.debug("description {}", request.getParameter(DESCRIPTION));
-        log.debug("calories {}", request.getParameter(CALORIES));
-        log.debug("id {}", request.getParameter(ID));
+
         Meal meal = new Meal(
                 LocalDateTime.parse(request.getParameter(DATE_TIME), dateTimeFormatter),
                 request.getParameter(DESCRIPTION),
                 Integer.parseInt(request.getParameter(CALORIES))
         );
 
-        if (request.getParameter(ID)!=null && !request.getParameter(ID).isEmpty()) {
+        if (request.getParameter(ID) != null && !request.getParameter(ID).isEmpty()) {
             meal.setId(Integer.valueOf(request.getParameter(ID)));
         }
+        log.debug("save meal {} ", meal);
         mealsRepository.save(meal);
-        request.setAttribute("meals",
+        request.setAttribute(NAME_ATRR_MEALS,
                 MealsUtil.filteredByStreams(mealsRepository.getAll(), LocalTime.of(0, 0), LocalTime.of(23, 59), 2000));
         request.getRequestDispatcher("/meals.jsp").forward(request, response);
     }

@@ -27,7 +27,8 @@ Edit Meal
                 Description :
             </td>
             <td>
-                <input type="text" name="description" value="<c:out value="${meal.description}" />"/>
+             <%--   <input type="text" name="description" value="<c:out value="${meal.description}" />"/>--%>
+                <input type="text" name="description" value="${meal.description}"/>
             </td>
         </tr>
         <tr>
