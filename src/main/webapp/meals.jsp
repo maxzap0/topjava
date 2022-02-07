@@ -26,16 +26,7 @@
     <tbody>
     <%--<jsp:useBean id="meals" scope="request" type="java.util.List"/>--%>
     <c:forEach items="${meals}" var="meals">
-
-        <c:if test="${meals.excess eq true}">
-            <tr style="color: red">
-        </c:if>
-        <c:if test="${meals.excess ne true}">
-            <tr style="color: green">
-        </c:if>
-
-<%--        <c:out value="${meals.excess ? '<tr style=\"color: red\">' : '<tr style=\"color: green\">'}" />--%>
-
+        <tr style="color: ${meals.excess ? 'red' : 'green'}" >
         <td>
             <fmt:parseDate value="${meals.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
                            type="both"/>
