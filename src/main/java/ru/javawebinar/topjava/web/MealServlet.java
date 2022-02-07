@@ -70,10 +70,17 @@ public class MealServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
+        int calories;
+        try {
+            calories = Integer.parseInt(request.getParameter(CALORIES));
+        } catch (Exception e) {
+            calories = 0;
+        }
+
         Meal meal = new Meal(
                 LocalDateTime.parse(request.getParameter(DATE_TIME), dateTimeFormatter),
                 request.getParameter(DESCRIPTION),
-                Integer.parseInt(request.getParameter(CALORIES))
+                calories
         );
 
         if (request.getParameter(ID) != null && !request.getParameter(ID).isEmpty()) {

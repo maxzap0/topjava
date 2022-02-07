@@ -33,6 +33,9 @@
         <c:if test="${meals.excess ne true}">
             <tr style="color: green">
         </c:if>
+
+<%--        <c:out value="${meals.excess ? '<tr style=\"color: red\">' : '<tr style=\"color: green\">'}" />--%>
+
         <td>
             <fmt:parseDate value="${meals.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDateTime"
                            type="both"/>

@@ -1,7 +1,6 @@
 package ru.javawebinar.topjava.repos;
 
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.MealTo;
 
 import java.util.List;
 import java.util.NoSuchElementException;
