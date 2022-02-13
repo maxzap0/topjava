@@ -1,6 +1,5 @@
 package ru.javawebinar.topjava.util;
 
-import org.springframework.stereotype.Component;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
 
@@ -19,13 +18,13 @@ public class MealsUtil {
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 
     public static final List<Meal> meals = Arrays.asList(
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 10, 0), "Завтрак", 500, 1),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 13, 0), "Обед", 1000, 1),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 30, 20, 0), "Ужин", 500, 1),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 0, 0), "Еда для юзера с id 0", 100, 0),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 10, 0), "Завтрак", 1000, 1),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 13, 0), "Обед", 500, 1),
-            new Meal(LocalDateTime.of(2020, Month.JANUARY, 31, 20, 0), "Ужин", 410, 1)
+            new Meal(LocalDateTime.of(2022, Month.JANUARY, 30, 10, 0), "Завтрак 0", 500, 0),
+            new Meal(LocalDateTime.of(2022, Month.JANUARY, 30, 13, 0), "Обед 0", 1000, 0),
+            new Meal(LocalDateTime.of(2022, Month.JANUARY, 30, 20, 0), "Ужин 0", 500, 0),
+            new Meal(LocalDateTime.of(2022, Month.JANUARY, 31, 0, 0), "Еда на граничное 1", 100, 1),
+            new Meal(LocalDateTime.of(2022, Month.JANUARY, 31, 10, 0), "Завтрак 1", 1000, 1),
+            new Meal(LocalDateTime.of(2022, Month.JANUARY, 31, 13, 0), "Обед 1", 500, 1),
+            new Meal(LocalDateTime.of(2022, Month.JANUARY, 31, 20, 0), "Ужин 1", 410, 1)
     );
 
     public static List<MealTo> getTos(Collection<Meal> meals, int caloriesPerDay) {

@@ -7,8 +7,17 @@
 <h3>Проект <a href="https://github.com/JavaWebinar/topjava" target="_blank">Java Enterprise (Topjava)</a></h3>
 <hr>
 <ul style="font-size: large">
-    <li><a href="users">Users</a></li>
+    <li><a href="javascript: document.switchUser.submit();">Users</a></li>
     <li><a href="meals">Meals</a></li>
 </ul>
+
+<form name="switchUser" action="users">
+    Выберите пользователя:
+    <select name="user">
+        <option value="admin">Admin</option>
+        <option value="user" selected>User</option>
+    </select>
+    <input hidden type="submit">
+</form>
 </body>
 </html>
