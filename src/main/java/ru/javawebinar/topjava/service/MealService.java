@@ -6,6 +6,7 @@ import ru.javawebinar.topjava.repository.MealRepository;
 import ru.javawebinar.topjava.to.MealTo;
 import ru.javawebinar.topjava.util.DateTimeUtil;
 import ru.javawebinar.topjava.util.MealsUtil;
+import ru.javawebinar.topjava.web.SecurityUtil;
 
 import java.time.LocalTime;
 import java.util.Collection;
@@ -48,7 +49,7 @@ public class MealService {
     public List<MealTo> getAll(String startDate, String startTime, String endDate, String endTime, int authUserId) {
         LocalTime start = (startTime==null || startTime.isEmpty()) ? LocalTime.MIN : LocalTime.parse(startTime);
         LocalTime end = endTime==null || endTime.isEmpty() ? LocalTime.MAX : LocalTime.parse(endTime);
-        return MealsUtil.getTos(repository.getAll(authUserId, startDate, endDate), MealsUtil.DEFAULT_CALORIES_PER_DAY).stream()
+        return MealsUtil.getTos(repository.getAll(authUserId, startDate, endDate), SecurityUtil.authUserCaloriesPerDay()).stream()
                 .filter(m-> DateTimeUtil.isBetweenHalfOpen(m.getDateTime().toLocalTime(), start, end))
                 .collect(Collectors.toList());
     }

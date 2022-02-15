@@ -9,7 +9,6 @@ import ru.javawebinar.topjava.util.MealsUtil;
 import ru.javawebinar.topjava.web.meal.MealRestController;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,12 +17,12 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
-@WebServlet
 public class MealServlet extends HttpServlet {
     private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
 
     private MealRestController controller;
-    ConfigurableApplicationContext applicationContext;
+    private ConfigurableApplicationContext applicationContext;
+
 
     @Override
     public void init() {
@@ -95,10 +94,6 @@ public class MealServlet extends HttpServlet {
                 request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }
-    }
-
-    private boolean existParam(HttpServletRequest request, String param) {
-        return request.getParameter(param) == null || request.getParameter(param).isEmpty();
     }
 
     private int getId(HttpServletRequest request) {
