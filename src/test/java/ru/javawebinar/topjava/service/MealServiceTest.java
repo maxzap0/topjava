@@ -41,7 +41,7 @@ public class MealServiceTest {
     @Test
     public void get() {
         Meal meal = mealService.get(MEAL1_ID, USER_ID);
-        assertThat(meal).isEqualTo(MEAL1);
+        assertThat(meal).usingRecursiveComparison().isEqualTo(MEAL1);
     }
 
     @Test
@@ -68,25 +68,25 @@ public class MealServiceTest {
     @Test
     public void getBetweenInclusive() {
         List<Meal> meals = mealService.getBetweenInclusive(START, END, USER_ID);
-        assertThat(meals).isEqualTo(FILTER_DATE_LIST);
+        assertThat(meals).usingRecursiveComparison().isEqualTo(FILTER_DATE_LIST);
     }
 
     @Test()
     public void getBetweenInclusiveEmptyResult() {
         List<Meal> meals = mealService.getBetweenInclusive(START, END, INCORRECT_ID);
-        assertThat(meals).isEqualTo(Collections.emptyList());
+        assertThat(meals).usingRecursiveComparison().isEqualTo(Collections.emptyList());
     }
 
     @Test
     public void getAll() {
         List<Meal> meals = mealService.getAll(USER_ID);
-        assertThat(meals).isEqualTo(ALL_LIST);
+        assertThat(meals).usingRecursiveComparison().isEqualTo(ALL_LIST);
     }
 
     @Test
     public void getAllIncorrectId() {
         List<Meal> meals = mealService.getAll(ADMIN_ID);
-        assertThat(meals).isNotEqualTo(ALL_LIST);
+        assertThat(meals).usingRecursiveComparison().isNotEqualTo(ALL_LIST);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class MealServiceTest {
         Meal newMeal = newMeal();
         Integer createdId = created.getId();
         newMeal.setId(createdId);
-        assertThat(newMeal).isEqualTo(created);
+        assertThat(newMeal).usingRecursiveComparison().isEqualTo(created);
     }
 
     @Test
@@ -111,7 +111,7 @@ public class MealServiceTest {
         Meal updated = updateMeal();
         mealService.update(updated, USER_ID);
         Meal meal = mealService.get(updated.getId(), USER_ID);
-        assertThat(meal).isEqualTo(updated);
+        assertThat(meal).usingRecursiveComparison().isEqualTo(updated);
     }
 
     @Test
