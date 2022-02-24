@@ -23,7 +23,7 @@ public class MealTestData {
     public static final Meal MEAL4 = new Meal(MEAL4_ID,LocalDateTime.parse("2022-02-20T20:00:55"),"Ужин",900);
 
     public static final List<Meal> FILTER_DATE_LIST = new ArrayList<>(Arrays.asList(MEAL1,MEAL2,MEAL3));
-    public static final List<Meal> ALL_LIST = new ArrayList<>(Arrays.asList(MEAL1,MEAL2,MEAL3,MEAL4));
+    public static final List<Meal> ALL_LIST = new ArrayList<>(Arrays.asList(MEAL4,MEAL3,MEAL2,MEAL1));
     public static final LocalDate START = LocalDate.parse("2022-02-19");
     public static final LocalDate END = LocalDate.parse("2022-02-19");
 

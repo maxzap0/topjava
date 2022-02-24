@@ -17,8 +17,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-import static ru.javawebinar.topjava.UserTestData.*;
+import static org.junit.Assert.assertThrows;
+import static ru.javawebinar.topjava.UserTestData.ADMIN_ID;
+import static ru.javawebinar.topjava.UserTestData.USER_ID;
 import static ru.javawebinar.topjava.MealTestData.*;
 
 @ContextConfiguration({
