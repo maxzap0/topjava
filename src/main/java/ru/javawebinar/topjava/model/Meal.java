@@ -1,8 +1,8 @@
 package ru.javawebinar.topjava.model;
 
-import org.hibernate.annotations.Proxy;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,16 +10,15 @@ import java.time.LocalTime;
 @NamedQueries({
         @NamedQuery(name = Meal.DELETE, query = "DELETE FROM Meal m WHERE m.id=:id AND m.user.id=:userId"),
         @NamedQuery(name = Meal.ALL_SORTED, query = "SELECT m FROM Meal m where m.user.id=:userId ORDER BY m.dateTime DESC"),
-        @NamedQuery(name = Meal.ALL_SORTED_TIME_SELECT, query = "SELECT m FROM Meal m where m.user.id=:userId AND m.dateTime >= :start AND m.dateTime <= :end ORDER BY m.dateTime DESC"),
+        @NamedQuery(name = Meal.ALL_SORTED_TIME_SELECT, query = "SELECT m FROM Meal m where m.user.id=:userId AND m.dateTime >= :start AND m.dateTime < :end ORDER BY m.dateTime DESC"),
         @NamedQuery(name = Meal.GET, query = "SELECT m FROM Meal m where m.user.id=:userId AND m.id=:id"),
 })
 
 @Entity
-@Table(name = "meals",
-        uniqueConstraints= {
-        @UniqueConstraint(columnNames = "user_id"),
-        @UniqueConstraint(columnNames = "date_time")
-})
+@Table(name = "meals"
+        ,uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "meals_unique_user_datetime_idx")}
+)
+
 public class Meal extends AbstractBaseEntity {
 
     public static final String DELETE = "Meal.delete";
@@ -27,13 +26,15 @@ public class Meal extends AbstractBaseEntity {
     public static final String ALL_SORTED_TIME_SELECT = "Meal.getAllSortedTimeSelect";
     public static final String GET = "Meal.GET";
 
+    @NotNull
     @Column(name = "date_time")
-
     private LocalDateTime dateTime;
 
+    @NotBlank
     @Column(name = "description")
     private String description;
 
+    @NotNull
     @Column(name = "calories")
     private int calories;
 

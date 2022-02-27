@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.MealRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,12 +26,14 @@ public class JpaMealRepository implements MealRepository {
             User ref = em.getReference(User.class, userId);
             meal.setUser(ref);
             em.persist(meal);
+            return meal;
         } else {
-            User ref = em.getReference(User.class, userId);
-            meal.setUser(ref);
-            em.merge(meal);
+            if (em.find(Meal.class, meal.getId()).getUser().getId()==userId){
+                meal.setUser(em.find(User.class, userId));
+                return em.merge(meal);
+            }
+            return null;
         }
-        return meal;
     }
 
     @Override
@@ -39,17 +42,20 @@ public class JpaMealRepository implements MealRepository {
         return em.createNamedQuery(Meal.DELETE)
                 .setParameter("userId", userId)
                 .setParameter("id", id)
-                .executeUpdate()!=0;
+                .executeUpdate() != 0;
     }
 
     @Override
     @Transactional
     public Meal get(int id, int userId) {
-        Meal meal =  em.createNamedQuery(Meal.GET, Meal.class)
-                .setParameter("id", id)
-                .setParameter("userId", userId)
-                .getSingleResult();
-    return meal;
+        try {
+            return em.createNamedQuery(Meal.GET, Meal.class)
+                    .setParameter("id", id)
+                    .setParameter("userId", userId)
+                    .getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -62,7 +68,7 @@ public class JpaMealRepository implements MealRepository {
     @Override
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
         return em.createNamedQuery(Meal.ALL_SORTED_TIME_SELECT, Meal.class)
-                .setParameter("userId" , userId)
+                .setParameter("userId", userId)
                 .setParameter("start", startDateTime)
                 .setParameter("end", endDateTime)
                 .getResultList();

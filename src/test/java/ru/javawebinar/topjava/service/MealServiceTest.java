@@ -1,20 +1,27 @@
 package ru.javawebinar.topjava.service;
 
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExternalResource;
+import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.repository.inmemory.InMemoryMealRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertThrows;
 import static ru.javawebinar.topjava.MealTestData.*;
@@ -25,12 +32,43 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
         "classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml"
 })
+
+
 @RunWith(SpringRunner.class)
 @Sql(scripts = "classpath:db/populateDB.sql", config = @SqlConfig(encoding = "UTF-8"))
 public class MealServiceTest {
 
     @Autowired
     private MealService service;
+    private final static List<String> results = new ArrayList<>();
+    private final static Logger log = LoggerFactory.getLogger(InMemoryMealRepository.class);
+
+    @Rule
+    public final TestName nameTest = new TestName();
+
+    @ClassRule
+    public static final ExternalResource resourceClass = new ExternalResource() {
+        @Override
+        protected void after() {
+            results.forEach(log::info);
+        }
+    };
+
+    @Rule
+    public final ExternalResource resource = new ExternalResource() {
+        private Long start;
+        @Override
+        protected void before() {
+            start = System.currentTimeMillis();
+        }
+
+        @Override
+        protected void after() {
+            long now = System.currentTimeMillis();
+            log.info("test execution time, ms {}", now-start);
+            results.add("test " + nameTest.getMethodName() + " execution time, ms " + (now-start));
+        }
+    };
 
     @Test
     public void delete() {
