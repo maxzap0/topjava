@@ -6,6 +6,11 @@
 
     <display-name>Topjava</display-name>
 
+    <context-param>
+        <param-name>spring.profiles.active</param-name>
+        <param-value>datajpa</param-value>
+    </context-param>
+
     <servlet>
         <servlet-name>userServlet</servlet-name>
         <servlet-class>ru.javawebinar.topjava.web.UserServlet</servlet-class>
@@ -21,6 +26,7 @@
         <servlet-class>ru.javawebinar.topjava.web.MealServlet</servlet-class>
         <load-on-startup>0</load-on-startup>
     </servlet>
+
     <servlet-mapping>
         <servlet-name>mealServlet</servlet-name>
         <url-pattern>/meals</url-pattern>
