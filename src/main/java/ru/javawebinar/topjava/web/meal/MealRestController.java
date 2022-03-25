@@ -1,10 +1,8 @@
 package ru.javawebinar.topjava.web.meal;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
 
@@ -31,13 +29,14 @@ public class MealRestController extends AbstractMealController {
     }
 
     @Override
-    @GetMapping()
     public List<MealTo> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
         return super.getBetween(startDate, startTime, endDate, endTime);
     }
 
     @Override
-    public void delete(int id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
         super.delete(id);
     }
 
