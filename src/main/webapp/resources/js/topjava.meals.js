@@ -45,3 +45,11 @@ $(function () {
         })
     );
 });
+
+function filterTable() {
+    $.ajax({
+        type: "GET",
+        url: mealAjaxUrl + "filter",
+        data: $("#filter").serialize()
+    }).done(updateTableByData);
+}
