@@ -7,10 +7,11 @@ import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.to.MealTo;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/a/meals", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/profile/meals", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MealUIController extends AbstractMealController{
 
     @Override
