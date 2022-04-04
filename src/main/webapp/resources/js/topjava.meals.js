@@ -53,3 +53,7 @@ function filterTable() {
         data: $("#filter").serialize()
     }).done(updateTableByData);
 }
+
+function filterCleare() {
+    $("#filter")[0].reset();
+}
