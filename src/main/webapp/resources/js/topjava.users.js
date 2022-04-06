@@ -52,5 +52,8 @@ function enable(chkbox,id) {
         type: "POST",
         url: userAjaxUrl+id,
         data: "enabled="+enabled
-    }).done(updateTableByData);
+    }).done(function () {
+        successNoty(enabled ? "enabled" : "disabled");
+    });
 }
+
